@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
+using DatingApp.API.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +14,10 @@ namespace DatingApp.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDatingRepository _repo;
-        public UsersController(IDatingRepository repo)
+        private readonly IMapper _mapper;
+        public UsersController(IDatingRepository repo, IMapper mapper)
         {
+            this._mapper = mapper;
             this._repo = repo;
         }
 
@@ -21,7 +26,9 @@ namespace DatingApp.API.Controllers
         {
             var users = await this._repo.GetUsers();
 
-            return Ok(users);
+            var usersToReturn = this._mapper.Map<IEnumerable<UserForListDto>>(users);
+
+            return Ok(usersToReturn);
         }
 
         [HttpGet("{id}")]
@@ -29,7 +36,9 @@ namespace DatingApp.API.Controllers
         {
             var user = await this._repo.GetUser(id);
 
-            return Ok(user);
+            var userToReturn = this._mapper.Map<UserForDetailsDto>(user);
+
+            return Ok(userToReturn);
         }
     }
 }

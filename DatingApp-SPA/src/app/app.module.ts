@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
-import { BsDropdownModule } from "ngx-bootstrap";
+import { BsDropdownModule, TabsModule } from "ngx-bootstrap";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -18,6 +18,7 @@ import { ListsComponent } from "./lists/lists.component";
 import { MessagesComponent } from "./messages/messages.component";
 import { appRoutes } from "./routes";
 import { MemberCardComponent } from "./members/member-card/member-card.component";
+import { MemberDetailsComponent } from "./members/member-details/member-details.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -32,7 +33,8 @@ export function tokenGetter() {
     MemberListComponent,
     ListsComponent,
     MessagesComponent,
-    MemberCardComponent
+    MemberCardComponent,
+    MemberDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ export function tokenGetter() {
         whitelistedDomains: ["localhost:5000"],
         blacklistedRoutes: ["localhost:5000/api/auth"]
       }
-    })
+    }),
+    TabsModule.forRoot()
   ],
   providers: [AuthService, ErrorInterceptorProvider],
   bootstrap: [AppComponent]
